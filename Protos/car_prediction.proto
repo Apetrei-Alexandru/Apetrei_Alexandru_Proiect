@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "PricePredictorGrpcService";
+
+package price;
+
+// Definim serviciul gRPC
+service PricePredictor {
+  rpc Predict (PricePredictionRequest) returns (PricePredictionReply);
+}
+
+// Mesajul trimis catre server — 4 input-uri pentru modelul ML
+message PricePredictionRequest {
+  string brand = 1;   // Exemplu: "Audi"
+  string model = 2;   // Exemplu: "A4"
+  int32 year = 3;     // Exemplu: 2018
+  float mileage = 4;  // Exemplu: 145000.0
+}
+
+// Raspunsul primit de la server — predictia de pret
+message PricePredictionReply {
+  float predictedPrice = 1;
+}

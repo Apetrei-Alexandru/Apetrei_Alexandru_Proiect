@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Predicție preț mașină";
+
+    // Calculăm price și color în prealabil (în afara blocului @if)
+    float? price = null;
+    string color = "black";
+
+    if (ViewBag.Price != null)
+    {
+        try
+        {
+            price = Convert.ToSingle(ViewBag.Price);
+        }
+        catch
+        {
+            price = null;
+        }
+
+        if (price.HasValue)
+        {
+            if (price.Value < 20000)
+                color = "green";
+            else if (price.Value <= 50000)
+                color = "blue";
+            else
+                color = "red";
+        }
+    }
+}
+
+<h2>Predicție preț auto (gRPC + ML.NET)</h2>
+
+<form asp-action="Predict" method="post">
+    <div class="form-group">
+        <label for="brand">Brand</label>
+        <input type="text" class="form-control" id="brand" name="brand" required />
+    </div>
+
+    <div class="form-group">
+        <label for="model">Model</label>
+        <input type="text" class="form-control" id="model" name="model" required />
+    </div>
+
+    <div class="form-group">
+        <label for="year">An fabricație</label>
+        <input type="number" class="form-control" id="year" name="year" required />
+    </div>
+
+    <div class="form-group">
+        <label for="mileage">Kilometri (mileage)</label>
+        <input type="number" class="form-control" id="mileage" name="mileage" step="0.1" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Calculează prețul</button>
+</form>
+
+@if (price.HasValue)
+{
+    <hr />
+    <h4>Rezultat:</h4>
+
+    <p>Brand: <strong>@ViewBag.Brand</strong></p>
+    <p>Model: <strong>@ViewBag.Model</strong></p>
+    <p>An: <strong>@ViewBag.Year</strong></p>
+    <p>Kilometri: <strong>@ViewBag.Mileage</strong></p>
+
+    <h4>Preț estimat: <strong>@price.Value €</strong></h4>
+
+    <p style="color:@color; font-size: 20px;">
+        <strong>@ViewBag.Message</strong>
+    </p>
+}
