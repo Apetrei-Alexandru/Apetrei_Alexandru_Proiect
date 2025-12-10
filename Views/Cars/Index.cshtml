@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Apetrei_Alexandru_Proiect.Models.Car>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<!-- FILTRARE BRAND + MODEL -->
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Brand:
+            <select name="brandId" asp-items="@(ViewData["BrandList"] as SelectList)">
+                <option value="">-- All Brands --</option>
+            </select>
+
+            Model:
+            <select name="modelId" asp-items="@(ViewData["ModelList"] as SelectList)">
+                <option value="">-- All Models --</option>
+            </select>
+
+            <input type="submit" value="Filter" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Year)</th>
+            <th>@Html.DisplayNameFor(model => model.EngineSize)</th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["MileageSortParm"]">
+                    @Html.DisplayNameFor(model => model.Mileage)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">
+                    @Html.DisplayNameFor(model => model.Price)
+                </a>
+            </th>
+            <th>@Html.DisplayNameFor(model => model.Brand)</th>
+            <th>@Html.DisplayNameFor(model => model.Model)</th>
+            <th>@Html.DisplayNameFor(model => model.FuelType)</th>
+            <th>@Html.DisplayNameFor(model => model.Transmission)</th>
+            <th>@Html.DisplayNameFor(model => model.Condition)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                <td>@Html.DisplayFor(modelItem => item.EngineSize)</td>
+                <td>@Html.DisplayFor(modelItem => item.Mileage)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.Brand.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Model.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.FuelType.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Transmission.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Condition.Name)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CarId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CarId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CarId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

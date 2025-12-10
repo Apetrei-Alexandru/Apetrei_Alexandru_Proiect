@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../CarPriceModelWebApi/CarPriceModelWebApi.csproj" />
+  <Project Path="Apetrei_Alexandru_Proiect.csproj" />
+</Solution>
